@@ -9,21 +9,29 @@ import SwiftUI
 
 struct NavigationBar: View {
 
-    @Binding var isPresented: Bool
+    var title: String
+    var tintColor: Color = .accentColor
+
+    var dismiss: () -> Void
 
     var body: some View {
         ZStack {
-            Text("SwiftUI Controls")
-                .fontWeight(.bold)
-                .foregroundColor(.purple)
+            VStack {
+                Text("SwiftUI Controls")
+                    .font(.title3)
+                Text(title)
+            }
+            .fontWeight(.bold)
+            .foregroundColor(tintColor)
 
             HStack {
-                Button(action: {
-                    isPresented.toggle()
-                }) {
+                Button {
+                    dismiss()
+                } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .tint(.purple)
+                        .tint(tintColor)
                 }
+
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
         }

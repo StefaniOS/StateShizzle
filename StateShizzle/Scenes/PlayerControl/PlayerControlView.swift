@@ -10,6 +10,7 @@ import SwiftUI
 struct PlayerControlView: View {
 
     @StateObject private  var viewModel: PlayerControlViewModel
+    @EnvironmentObject private var player: ObservablePlayer
 
     private let tintColor: Color
 
@@ -37,10 +38,10 @@ extension PlayerControlView {
 
     var sliderView: some View {
         Slider(
-            value: $viewModel.playerState.currentPosition,
+            value: $player.state.currentPosition,
             in: 0...99,
             onEditingChanged: { _  in
-                XYPlayer.sharedInstance.seek(to: viewModel.playerState.currentPosition)
+                player.seek(to: player.state.currentPosition)
             })
         .tint(tintColor)
         .padding()
@@ -48,15 +49,14 @@ extension PlayerControlView {
 
     var actionView: some View {
         Button(action: {
-            if viewModel.playerState.isRunning != true {
-                XYPlayer.sharedInstance.start()
+            if !player.state.isRunning {
+                player.start()
             }
             else {
-                XYPlayer.sharedInstance.stop()
+                player.stop()
             }
         }) {
-            Image(systemName: viewModel.playerState.isRunning == true ?
-                  "pause.circle.fill" : "play.circle.fill")
+            Image(systemName: viewModel.controlImageName(player.state.isRunning))
             .resizable()
             .frame(width: 76.0, height: 76.0)
             .tint(tintColor)
@@ -64,7 +64,7 @@ extension PlayerControlView {
     }
 
     var infoView: some View {
-        Text("\(Int(viewModel.playerState.currentPosition))")
+        Text("\(Int(player.state.currentPosition))")
             .font(.custom("DBLCDTempBlack", size: 48))
             .foregroundColor(tintColor)
             .padding()

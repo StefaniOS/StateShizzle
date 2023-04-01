@@ -12,6 +12,7 @@ enum ColorName: String {
     case deepGreen
     case deepPurple
     case orangeRed
+    case `none`
 }
 
 extension Color {
@@ -30,4 +31,17 @@ extension Color {
     static let deepGreen: Color = .init(.deepGreen)
     static let deepPurple: Color = .init(.deepPurple)
     static let orangeRed: Color = .init(.orangeRed)
+
+    var name: ColorName {
+        switch self {
+        case .deepGreen:
+            return .deepGreen
+        case .deepPurple:
+            return .deepPurple
+        case .orangeRed:
+            return .orangeRed
+        default:
+            return .none
+        }
+    }
 }

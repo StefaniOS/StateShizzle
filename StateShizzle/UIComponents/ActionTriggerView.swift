@@ -13,11 +13,11 @@ struct ActionTriggerView: View {
     var foregroundColor: Color = .white
     var backgroundColor: Color = .accentColor
 
-    @Binding var action: Bool
+    var action: () -> Void
 
     var body: some View {
         Button {
-            action.toggle()
+            action()
         } label: {
             Text(title)
                 .font(.title2)
